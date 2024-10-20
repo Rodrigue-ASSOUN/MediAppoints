@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:mediappoints/screens/auth_page.dart';
+import 'package:mediappoints/screens/booking_page.dart';
+import 'package:mediappoints/screens/doctor_details.dart';
+import 'package:mediappoints/screens/success_booking.dart';
 import 'package:mediappoints/utils/config.dart';
 
 import 'main_layout.dart';
@@ -47,9 +50,10 @@ class MyApp extends StatelessWidget {
       routes: {
         '/': (context) => const AuthPage(),
         'main': (context) => const MainLayout(),
-        'doc_details': (context) => const DoctorDetails(),
+        'doc_details': (context) =>  DoctorDetails(),
+        'booking_page': (context) => BookingPage(),
         'main.dart':(context)=> BookingPage(),
-        'success_booking': (context) => AppointmentBooked(),
+        'success_booking': (context) => const AppointmentBooked(),
       },
     );
   }

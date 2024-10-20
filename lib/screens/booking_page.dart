@@ -1,15 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:table_calendar/table_calendar.dart';
 
-class BookingPage extends StatefulWidget{
-  BookingPage{{Key? key}} : super{key : key};
+import '../components/button.dart';
+import '../utils/config.dart';
+import 'custom_appbar.dart';
+
+class BookingPage extends StatefulWidget {
+  BookingPage({Key? key}) : super(key: key);
 
   @override
-  State<BookingPage> createSate() => _BookingPageState{};
+  State<BookingPage> createState() => _BookingPageState();
 }
 
-class _BookingPageState extends State<BookingPage>{
-  //declaration
+class _BookingPageState extends State<BookingPage> {
+  // Déclaration
   CalendarFormat _format = CalendarFormat.month;
   DateTime _focusDay = DateTime.now();
   DateTime _currentDay = DateTime.now();
@@ -17,165 +22,140 @@ class _BookingPageState extends State<BookingPage>{
   bool _isWeekend = false;
   bool _dateSelected = false;
   bool _timeSelected = false;
+
   @override
-  Widget build(BuildContext context){
-    config.init(context);
-    return Scalffold(
-      appBar:CustomAppBar{
-          appTitle:'Appointement',
-          icon: const FaIcon(Icons.arrow_back_ios),
-      },
-      body:CustomScrollView{
-        slivers:<Wiedget>[
-          SliversToBoxAdapter{
-            child:Column{
-              children:<Widget> [
-                //Display calendar
+  Widget build(BuildContext context) {
+    Config().init(context);
+    return Scaffold(
+      appBar: CustomAppBar(
+        appTitle: 'Appointment',
+        icon: const FaIcon(Icons.arrow_back_ios),
+      ),
+      body: CustomScrollView(
+        slivers: <Widget>[
+          SliverToBoxAdapter(
+            child: Column(
+              children: <Widget>[
                 _tableCalendar(),
-                cosnt Padding(
-                  padding: EdgeInsets.symmetric(horizontal:10, vertical:25),
-                  child: Center{
+                const Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 10, vertical: 25),
+                  child: Center(
                     child: Text(
-                      'Select Consultation Time',
+                      'Selected consultation time',
                       style: TextStyle(
-                        fontWeigth:FontWeigth.bold,
-                        fontSize:20,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 20,
                       ),
                     ),
-                  },
-                )
-              ],
-            },
-          }
-          _isWeekend
-            ?SilverToBoxAdopter(
-              child: Container(
-                padding:const EdgeInsets.symmetric(horizontal:10, vertical:30),
-                alignement: Alignement.center,
-                child const Text(
-                  'Weekend is not available, please select another date',
-                  style: TextStyle(
-                    fontsize:18,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.grey,
                   ),
-                )
+                ),
+              ],
+            ),
+          ),
+          _isWeekend
+              ? SliverToBoxAdapter( // Correction de SilverToBoxAdapter
+            child: Container(
+              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 30),
+              alignment: Alignment.center,
+              child: const Text(
+                'Le week-end n\'est pas disponible, veuillez sélectionner une autre date',
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.grey,
+                ),
               ),
-            )//SilverToBoxContainer
-            :SliverGrid(
-              delegate: SliverChildBuilderDelegate({context, index}{
+            ),
+          )
+              : SliverGrid(
+            delegate: SliverChildBuilderDelegate(
+                  (context, index) {
                 return InkWell(
-                  splasColor: Colors.transparent,
-                  onTap:{}{
-                    setState{{}{
+                  splashColor: Colors.transparent,
+                  onTap: () {
+                    setState(() {
                       _currentIndex = index;
                       _timeSelected = true;
-                    }};
+                    });
                   },
                   child: Container(
-                    margin: const EdgeInsets;all(5),
+                    margin: const EdgeInsets.all(5),
                     decoration: BoxDecoration(
                       border: Border.all(
-                        color: _currentIndex == index?
-                          Colors.white:
-                          Colors.black,
-                      )
+                        color: _currentIndex == index ? Colors.white : Colors.black,
+                      ),
                       borderRadius: BorderRadius.circular(15),
-                      color: _currentIndex == index
-                        ?config.primaryColor
-                        :null
+                      color: _currentIndex == index ? Config.primaryColor : null,
                     ),
-                    alignement:Alignements.center,
+                    alignment: Alignment.center,
                     child: Text(
-                      '${index + 9}: 00 ${index + 9 > 11 ? "PM": "AM"}',
-                      fontWeight: FontWeight.bold,
-                      color:_currentIndex == index ? color.white : null,
+                      '${index + 9}:00 ${index + 9 > 11 ? "PM" : "AM"}',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: _currentIndex == index ? Colors.white : null,
+                      ),
                     ),
                   ),
                 );
               },
-              childCount:8,
+              childCount: 8,
             ),
-            gridDelegate: const SliverGridDelegatedWidthFixedCrossAxisCount(
-                crossAxisCount: 4, childAspectRatio: 1.5),
-          )//silverGrid
-          SilverToBoxAdapter{
-            child: Container{
-              padding: const EdgeInsets.symmetric(horizontal: 10, vertical:80),
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 4,
+              childAspectRatio: 1.5,
+            ),
+          ),
+          SliverToBoxAdapter(
+            child: Container(
+              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 80),
               child: Button(
                 width: double.infinity,
-                title:'Make Appointment',
-                onPressed:{}{
-                  Navigator.of(context).pushNamed('success_booking')
+                title: 'Make Appointment',
+                onPressed: () {
+                  Navigator.of(context).pushNamed('success_booking');
                 },
-                disable:_timeSelected && _dateSelected ? true: false,
+                disable: _timeSelected && _dateSelected ? false : true, // Optimisation de la condition
               ),
-            },
-          },
+            ),
+          ),
         ],
-      },
+      ),
     );
   }
 
-  Widget _tableCalendar(){
-    return TableCalendar{
-      focusDay:_focusDay,
-      firstDay:DateTime.now(),
-      lastDay: DateTime[2023, 12, 31],
-      calendarFormat:_format,
-      rowHeight:40,
-      calendarStyle: const CalendarStyle{
-        todayDecoration:BoxDecoration(color: Config.primaryColor, shape:BoxShape.circle),
-      },//CalendarStyle
-      availableCalendarFormats: const{
-        CalendarFormats.month: 'Month',
+  Widget _tableCalendar() {
+    return TableCalendar(
+      focusedDay: _focusDay,
+      firstDay: DateTime.now(),
+      lastDay: DateTime(2023, 12, 31),
+      calendarFormat: _format,
+      rowHeight: 40,
+      calendarStyle: const CalendarStyle(
+        todayDecoration: BoxDecoration(color: Config.primaryColor, shape: BoxShape.circle),
+      ),
+      availableCalendarFormats: const {
+        CalendarFormat.month: 'Month',
       },
-      onFormatChanged:(format){
-        SetState{() {
+      onFormatChanged: (format) {
+        setState(() {
           _format = format;
-        }};
-        onDaySelected:{{selectedDay, focusedDay}{
-          setState{{}{
-            _currentDay =selectedDay;
-            _focusedDay = focusedDay;
-            _dateSelected = true;
-
-            //check if weekend is selected
-            if(selectedDay.weekday == 6|| selectedDay.weekDay == 7){
-              _isWeekend =true;
-              _timeSelected = false;
-              currentIndex = null;
-            }else{
-              _isWennkend = false;
-            }
-          }};
-        }};
+        });
       },
-    };
+      onDaySelected: (selectedDay, focusedDay) {
+        setState(() {
+          _currentDay = selectedDay;
+          _focusDay = focusedDay;
+          _dateSelected = true;
+
+          if (selectedDay.weekday == 6 || selectedDay.weekday == 7) {
+            _isWeekend = true;
+            _timeSelected = false;
+            _currentIndex = null;
+          } else {
+            _isWeekend = false;
+          }
+        });
+      },
+    );
   }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

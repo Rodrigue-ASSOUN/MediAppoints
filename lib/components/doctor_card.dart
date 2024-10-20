@@ -1,5 +1,8 @@
+
 import 'package:flutter/material.dart';
 
+import '../main.dart';
+import '../screens/doctor_details.dart';
 import '../utils/config.dart';
 
 class DoctorCard extends StatelessWidget {
@@ -34,7 +37,7 @@ class DoctorCard extends StatelessWidget {
               Flexible(
                 child: Padding(
                   padding:
-                      const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
+                  const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
@@ -75,18 +78,23 @@ class DoctorCard extends StatelessWidget {
                           Text('(20)'),
                           Spacer(
                             flex: 7,
-                          ),//spacer
-                        ],//<widget>
-                      ),//row
-                    ],//
-                  ),//column
-                ),//padding
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
               ),
             ],
           ),
         ),
         onTap: () {
-          Navigator.of(context).pushNamed(route);
+          //pass the details to detail page
+         /* MyApp.navigatorKey.currentState!.push(MaterialPageRoute(
+              builder: (_) => DoctorDetails(
+                doctor: doctor,
+                isFav: isFav,
+              )));*/
         },
       ),
     );

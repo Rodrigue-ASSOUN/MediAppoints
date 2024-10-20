@@ -1,47 +1,46 @@
-import 'package: flutter/material.dart';
-import 'package: lottie/lottie.dart';
+import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
 
-class AppointmentBooked extends StatelessWidget{
-  const AppointmentBooked{{Key? key}} : super{{key: key}};
+class AppointmentBooked extends StatelessWidget {
+  const AppointmentBooked({Key? key}) : super(key: key);
+
   @override
-  widget build(BuildContext context){
-    return Scafold(
+  Widget build(BuildContext context) {
+    return Scaffold(
       body: SafeArea(
-        child : Column{
-          mainAxisAlignement: MainAxisAlignment.center,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Expanded(
               flex: 3,
               child: Lottie.asset('assets/success.json'),
-            ),//Expanded
-            Container{
-              width:double.infinity,
-              alignment:Alignement.center,
-              child:const Text{
+            ), // Expanded
+            Container(
+              width: double.infinity,
+              alignment: Alignment.center,
+              child: const Text(
                 'Successfully Booked',
-                style: TextStyle{
+                style: TextStyle(
                   fontSize: 20,
-                  fontWeigth: FontWeight.bold,
-                },
-              },
-            },//container
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ), // Container
             const Spacer(),
-            //back to Home
+            // Back to Home
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 10, vertical:15),
-              child: Button{
-                width:double.infinity,
-                title:'Back to Home Page',
-                onpressed: {} => Navigator.of(context).pushNamed('main'),
-                disable: false,
-              },
+              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 15),
+              child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  minimumSize: Size(double.infinity, 48), // Set button height
+                ),
+                child: const Text('Back to Home Page'),
+                onPressed: () => Navigator.of(context).pushNamed('main'),
+              ),
             )
           ],
-        },
+        ),
       ),
     );
   }
 }
-
-
-
