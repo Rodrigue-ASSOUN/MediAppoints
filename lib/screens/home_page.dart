@@ -171,17 +171,12 @@ class _HomePageState extends State<HomePage> {
                       ),
                       Config.spaceSmall,
                       Column(
-                        children: List.generate(user['doctor'].length, (index) {
-                          return DoctorCard(
-                            doctor: user['doctor'][index],
+                        children: List.generate(10, (index) {
+                          return const DoctorCard( doctor: user['doctor'][index],
                             //if lates fav list contains particular doctor id, then show fav icon
-                            isFav: favList
-                                    .contains(user['doctor'][index]['doc_id'])
-                                ? true
-                                : false,
+                            route: 'doc_details',
                           );
-                        }),
-                      ),
+
                     ],
                   ),
                 ),

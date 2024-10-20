@@ -75,16 +75,19 @@ class DoctorCard extends StatelessWidget {
                           Text('(20)'),
                           Spacer(
                             flex: 7,
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
+                          ),//spacer
+                        ],//<widget>
+                      ),//row
+                    ],//
+                  ),//column
+                ),//padding
               ),
             ],
           ),
         ),
+        onTap: () {
+          Navigator.of(context).pushNamed(route);
+        },
       ),
     );
   }
