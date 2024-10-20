@@ -49,6 +49,7 @@ class MyApp extends StatelessWidget {
         'main': (context) => const MainLayout(),
         'doc_details': (context) => const DoctorDetails(),
         'main.dart':(context)=> BookingPage(),
+        'success_booking': (context) => AppointmentBooked(),
       },
     );
   }
